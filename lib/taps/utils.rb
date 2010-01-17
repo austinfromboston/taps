@@ -37,7 +37,11 @@ module Utils
 		only_data = data.collect do |row|
 			header.collect { |h| row[h] }
 		end
-		{ :header => header, :data => only_data }
+		{ :header => drop_problematic_columns(header), :data => only_data }
+	end
+
+	def drop_problematic_columns(base_header)
+		base_header.map {|h| h == :class ? :amp_class : h }
 	end
 
 	def calculate_chunksize(old_chunksize)
